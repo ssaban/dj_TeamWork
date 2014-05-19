@@ -24,4 +24,10 @@ def index(request):
  
 
 def about(request):
-    return HttpResponse("Team says:Here is the about page. <a href='/team/'>Index</a>")
+    context = RequestContext(request)
+    
+    context_dict = {'boldmessage': "I am bold font from the context for about page"}
+    
+    return render_to_response('team/about.html', context_dict, context)
+    
+    #return HttpResponse("Team says:Here is the about page. <a href='/team/'>Index</a>")
