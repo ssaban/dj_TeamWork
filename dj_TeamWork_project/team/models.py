@@ -6,6 +6,7 @@ class Member(models.Model):
     first = models.CharField(max_length=128)
     last = models.CharField(max_length=128)
 
+
     def __unicode__(self):
         return self.last + ' ' + self.first
     
