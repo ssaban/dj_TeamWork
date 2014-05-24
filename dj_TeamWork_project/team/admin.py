@@ -9,7 +9,11 @@ if __name__ == "__main__":
     print "Hello World"
     
 from django.contrib import admin
-from team.models import Member, Proficiency
+from team.models import Member, Proficiency, UserProfile
+
 
 admin.site.register(Member)
 admin.site.register(Proficiency)
+
+admin.site.register(UserProfile)
+
