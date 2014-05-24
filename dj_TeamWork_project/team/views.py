@@ -133,6 +133,23 @@ def register(request):
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
             
-            
+
+
+def heatmap(request):
+    context = RequestContext(request)
+    
+ #   data = open('static/data.tsv').read()
+ #   json_data_raw = open('static/flare.json').read()
+ #   json_data = json.dumps(json_data_raw
+ #   print json_data_raw
+    
+    file_name = "/static/examples/prof.csv"
+    
+    context_dict = {'logged_in_msg': "Heatmap, you can see this text!" }
+    context_dict['heatmap_file'] = file_name
+    
+    return render_to_response('team/heatmap.html', context_dict, context)
+
+
 
 
