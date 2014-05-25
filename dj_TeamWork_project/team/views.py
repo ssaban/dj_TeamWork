@@ -143,7 +143,7 @@ def heatmap(request):
  #   json_data = json.dumps(json_data_raw
  #   print json_data_raw
     
-    file_name = "/static/examples/prof.csv"
+    file_name = "/static/data/prof.csv"
     
     context_dict = {'logged_in_msg': "Heatmap, you can see this text!" }
     context_dict['heatmap_file'] = file_name

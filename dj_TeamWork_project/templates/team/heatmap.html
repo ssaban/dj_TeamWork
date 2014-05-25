@@ -1,16 +1,65 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+{% load static %}
+
 <html>
+
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Team</title>
     </head>
+
     <body>
-        <div>TODO write content</div>
+        <div class="heatmap">
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+            <script type='text/javascript' src='http://d3js.org/d3.v3.min.js'></script>
+            <script src="{% static 'js/jquery.js' %}"></script>
+            <script src="{% static 'js/correxplorer.js' %}"></script>
+            <link href="{% static 'css/correxplorer.css' %}" rel="stylesheet">
+
+              <h1>{{logged_in_msg }}</h1>
+
+              <h1>Dynamic Proficiency Heatmap</h1>
+            <p>Example for team of 1000 engineers.</p>
+            <p>each element represent the number of engineers with proficiency level of a given topic</p>
+            <p></p>
+            <p>Click on a label to sort according to it.</p>
+            <p>Note - This code is derived from Pioter Migdal GitHub repo: <a href="https://github.com/CompassInc/correlation-explorer">Pioter Migdal on GitHub.</a></p> 
+
+            <input type="hidden" value="/static/data/prof.csv" id="file_path">
+            <!--
+            Transpose?
+             <input type="checkbox" id="transpose" checked="true">
+            -->
+            <input type="hidden" name="checkbox"  id="transpose" checked="true">
+            <button id="file_load" hidden="hidden">Load CSV!</button>
+            <button id="js_comparison" hidden="hidden">or generate JS comparison table?</button>
+
+            Sort by:
+            <select id="sort_func">
+              <option value="abs_value">by Absolute Value</option>
+              <option value="value" selected="selected">by Value</option>
+              <option value="similarity">by Similarity</option>
+              <option value="alphabetic">Alphabetic</option>
+              <option value="original">Original</option>
+            </select>
+
+            <!-- Keep symmetry? -->
+            <input type="hidden" name='checkbox' id="keep_symmetry" checked="true">
+            Zoom
+            <select id="zoom">
+              <option value="0.5">0.5</option>
+              <option value="0.8">0.8</option>
+              <option value="1" selected="selected">1</option>
+              <option value="2">2</option>
+            </select>
+            
+            <!--
+            <input type='text' id="zoom" value="1.">
+            -->
+          </p>
+          <div class="tooltip" style="opacity: 0.01"></div>
+        </div>
+        
     </body>
+
 </html>
+
