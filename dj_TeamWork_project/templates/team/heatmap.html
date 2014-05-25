@@ -4,7 +4,7 @@
 <html>
 
     <head>
-        <title>Team</title>
+        <title>Heatmap</title>
     </head>
 
     <body>
@@ -16,15 +16,23 @@
             <link href="{% static 'css/correxplorer.css' %}" rel="stylesheet">
 
               <h1>{{logged_in_msg }}</h1>
-
-              <h1>Dynamic Proficiency Heatmap</h1>
-            <p>Example for team of 1000 engineers.</p>
-            <p>each element represent the number of engineers with proficiency level of a given topic</p>
+              
+            <p>Example for team distribution per {{heatmap_file }} .</p>
+            <p>each element represent number of engineers with a given proficiency level</p>
             <p></p>
-            <p>Click on a label to sort according to it.</p>
-            <p>Note - This code is derived from Pioter Migdal GitHub repo: <a href="https://github.com/CompassInc/correlation-explorer">Pioter Migdal on GitHub.</a></p> 
-
+            <p>operations:</p>
+            <p>mouse hover on cell - show summary for the cell</p>
+            <p>mouse click on cell - show details for cell - TBD - currently a pop up stub</p>
+            <p>mouse hover on label - show summary for the label</p>
+            <p>mouse click on label - sort for this label</p>
+            <p>Note -The heatmap d3 visualization  is based on Pioter Migdal GitHub repo: <a href="https://github.com/CompassInc/correlation-explorer">Pioter Migdal on GitHub.</a></p> 
+            
+            <!--
             <input type="hidden" value="/static/data/prof.csv" id="file_path">
+            -->
+            
+            <input type="hidden" value="{{heatmap_file}}" id="file_path">
+            
             <!--
             Transpose?
              <input type="checkbox" id="transpose" checked="true">
@@ -51,6 +59,10 @@
               <option value="1" selected="selected">1</option>
               <option value="2">2</option>
             </select>
+            
+            <input type="hidden" value="{{max_val}}" id="max_val">
+            <input type="hidden" value="{{min_val}}" id="min_val">
+            <input type="hidden" value="{{team_cnt}}" id="team_cnt">
             
             <!--
             <input type='text' id="zoom" value="1.">

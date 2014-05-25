@@ -168,8 +168,12 @@ var main = function(corr, label_col, label_row){
   var order_row = d3.range(label_row.length + 1);
 
   var color = d3.scale.linear()
-      .domain([0,500,1000])
-      .range(['white','blue','red']);
+ //     .domain([0,850])
+ //     .range(['red','green']);
+        .domain([0,100, 200, 300, 400, 500, 600,700,800])
+        .range(["#6B4156", "#735573", "#736C8F", "#6984A7", "#599EB9", "#46B7C3", 
+                "#40CFC4", "#58E6BC", "#82FBAE"]);
+    
 
   var scale = d3.scale.linear()
       .domain([0, d3.min([50, d3.max([label_col.length, label_row.length, 4])])])
@@ -378,7 +382,7 @@ var main = function(corr, label_col, label_row){
   
   var update_value = function(d, what){
       
-      window.alert(d.i + "skill : " + label_row[d.i] + "<br>" + d.j + "Level : " + label_col[d.j] );
+      window.alert( "STUB TBD - LIST ENGINEERS MATCHING THIS PROPERTY - " + d.i + " skill : " + label_row[d.i] + "<br>" + d.j + "Level : " + label_col[d.j] );
       
       //tooltip.style("opacity", 0.8)
       //.style("left", (d3.event.pageX + 15) + "px")

@@ -37,6 +37,16 @@ class Proficiency(models.Model):
     python = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
     ruby = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
     git = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    svn = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    gradle = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    maven = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    jenkins = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    objective_c = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    android = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    mac_IOS = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    mySql = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    PHP = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
+    DSP = models.IntegerField(choices=PROFICIENCY_CHOICES, default=NA_STATUS)
     
     member = models.ForeignKey(Member)
 

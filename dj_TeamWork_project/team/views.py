@@ -6,16 +6,21 @@ from django.shortcuts import render_to_response
 from team.models import Member, Proficiency
 from team.forms import UserForm, UserProfileForm
 
-
+file_manually_generated = "/static/data/prof.csv"
+file_dynamically_generated = "/static/data/proficiancy_heatmap.csv"
+proficiancy_heatmap_file = "/static/data/prof.csv"
 
 def index(request):
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
+    
+    spec = "<p> line 1</p></br>"
+    spec +="<p> line 2</p></br>"
 
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    context_dict = {'boldmessage': "I am bold font from the context"}
+    context_dict = {'boldmessage': spec}
 
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
@@ -29,44 +34,7 @@ def index(request):
 def about(request):
     context = RequestContext(request)
     
-    context_dict = {'boldmessage': "I am bold font from the context for about page"}
-    
-    
-    
-    #return HttpResponse("Team says:Here is the about page. <a href='/team/'>Index</a>")
-
-    #prepare an empty dictionary of proficiency from DB
-    #dynamicaly extract name of proficiency from DB
-    team_proficiency_dictionary = {}
-    for f in Proficiency._meta.fields:
-        field = f.get_attname_column()[0]
-        if (field != "id") and (field != "member_id"):
-            team_proficiency_dictionary[field] = {}
-            for proficiency_level in (4,3,2,1,0):
-                team_proficiency_dictionary[field][str(proficiency_level)]=0 
-            
-            
-    #generate data for heatmap e.g. entry count for each proficiancy and level
-    for e in Proficiency.objects.all():
-        for proficiency in team_proficiency_dictionary:
-            proficiency_level =  eval("e."+ proficiency)
-            team_proficiency_dictionary[proficiency][str(proficiency_level)] +=1
-    
-    test_str = "DATA EXTRACTED\n"
-    with open ('myfile', 'a') as f:
-        
-    #print header of heatmap
-    
-        f.write ('Guru,Expert,Intermediate,Novice,NA\n')
-        test_str += 'Guru,Expert,Intermediate,Novice,NA\n'
-        for p in team_proficiency_dictionary:
-            proficiency_str = p
-            for level in (4,3,2,1,0):
-                proficiency_str += "," + str(team_proficiency_dictionary[p][str(level)])
-            f.write(proficiency_str + "\n")
-            test_str +=proficiency_str + "\n"
-            
-    context_dict = {'test_data':test_str}
+    context_dict = {'boldmessage': "Dynamic About info - TBD"}
     
     return render_to_response('team/about.html', context_dict, context)
             
@@ -134,19 +102,71 @@ def register(request):
             context)
             
 
+def hm_colectTeamProficiencyFromProficiencyTable():
+    #prepare an empty dictionary of proficiency from DB
+    #dynamicaly extract name of proficiency from DB
+    team_proficiency_dictionary = {}
+    
+    for f in Proficiency._meta.fields:
+        field = f.get_attname_column()[0]
+        if (field != "id") and (field != "member_id"):
+            team_proficiency_dictionary[field] = {}
+            for proficiency_level in (4,3,2,1,0):
+                team_proficiency_dictionary[field][str(proficiency_level)]=0 
+            
+    return team_proficiency_dictionary
+
+
+def hm_heatMapFileGeneration(team_proficiency_dictionary,
+                             proficiancy_heatmap_file):
+    #generate data for heatmap e.g. entry count for each proficiancy and level
+    members = 0
+    
+    for e in Proficiency.objects.all():
+        members +=1
+        for proficiency in team_proficiency_dictionary:
+            proficiency_level =  eval("e."+ proficiency)
+            team_proficiency_dictionary[proficiency][str(proficiency_level)] +=1
+    
+    mini = 999999999999
+    maxi = 0  
+    with open ('.' + proficiancy_heatmap_file , 'w') as f:
+    
+        f.write ('Guru,Expert,Intermediate,Novice,NA\n')
+        
+        for p in team_proficiency_dictionary:
+            proficiency_str = p
+            for level in (4,3,2,1,0):
+                proficiency_str += "," + str(team_proficiency_dictionary[p][str(level)])
+            f.write(proficiency_str + "\n")
+            if (mini > team_proficiency_dictionary[p][str(level)]):
+                mini = team_proficiency_dictionary[p][str(level)]
+            if (maxi < team_proficiency_dictionary[p][str(level)]):
+                maxi = team_proficiency_dictionary[p][str(level)]
+    
+    return (str(mini), str(maxi), str(members))
+
 
 def heatmap(request):
     context = RequestContext(request)
     
- #   data = open('static/data.tsv').read()
- #   json_data_raw = open('static/flare.json').read()
- #   json_data = json.dumps(json_data_raw
- #   print json_data_raw
+    team_proficiancy_heatmap_dictionary = {}
+    team_proficiancy_heatmap_dictionary = hm_colectTeamProficiencyFromProficiencyTable()
+    (min,max,member_cnt) = hm_heatMapFileGeneration(team_proficiancy_heatmap_dictionary,
+                             file_dynamically_generated)
     
-    file_name = "/static/data/prof.csv"
     
-    context_dict = {'logged_in_msg': "Heatmap, you can see this text!" }
-    context_dict['heatmap_file'] = file_name
+    info_msg = "Team Proficiancy Heatmap"
+     
+    context_dict = {'logged_in_msg': info_msg }
+    #context_dict['heatmap_file'] = "/static/data/prof.csv"
+    #context_dict['heatmap_file'] = file_dynamically_generated
+    context_dict['heatmap_file'] = file_manually_generated
+    
+    #value below are generated only for dynamic file
+    context_dict['max_val'] = max
+    context_dict['min_val'] = min
+    context_dict['team_cnt'] = member_cnt
     
     return render_to_response('team/heatmap.html', context_dict, context)
 

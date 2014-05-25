@@ -13,30 +13,46 @@ def random_proficiancy():
 
 def populate():
     
-    for x in range(1,1000):
+    for x in range(0,999+1):
         member = add_Member(str(x) + "-first", str(x) +"-last")
-        p_c = random_proficiancy()
-        p_cpp = random_proficiancy()
-        p_java = random_proficiancy()
-        p_perl = random_proficiancy()
-        p_python = random_proficiancy()
-        p_ruby = random_proficiancy()
-        p_git = random_proficiancy()
-        p_member = member
-        add_Proficiency(p_c, p_cpp, p_java, p_perl, p_python, p_ruby, p_git, p_member)
+        
+        c_p= random_proficiancy()
+        cpp_p= random_proficiancy()
+        java_p= random_proficiancy()
+        perl_p= random_proficiancy()
+        python_p= random_proficiancy()
+        ruby_p= random_proficiancy()
+        git_p= random_proficiancy()
+        svn_p= random_proficiancy()
+        gradle_p= random_proficiancy()
+        maven_p= random_proficiancy()
+        jenkins_p= random_proficiancy()
+        objective_c_p= random_proficiancy()
+        android_p= random_proficiancy()
+        DSP_p= random_proficiancy()
+        mac_IOS_p= random_proficiancy()
+        mySql_p= random_proficiancy()
+        PHP_p= random_proficiancy()
+        member_p = member
+        
+        add_Proficiency(c_p ,cpp_p, java_p, perl_p, python_p, ruby_p, git_p, svn_p, 
+                gradle_p, maven_p, jenkins_p, objective_c_p, android_p, DSP_p, mac_IOS_p, 
+                mySql_p, PHP_p, member_p)
         
 
 def add_Member(first_name, last_name):
     m = Member.objects.get_or_create(first=first_name, last=last_name)[0]
     return m
 
-def add_Proficiency(p_c, p_cpp, p_java, p_perl, p_python, p_ruby, p_git, p_member):
-    
-    p = Proficiency.objects.get_or_create(
-                                    c=p_c, cpp=p_cpp, java=p_java, perl=p_perl,
-                                    python=p_python, ruby=p_ruby, git=p_git, 
-                                    member=p_member)[0]
-    
+def add_Proficiency(c_p ,cpp_p, java_p, perl_p, python_p, ruby_p, git_p, svn_p, 
+    gradle_p, maven_p, jenkins_p, objective_c_p, android_p, DSP_p, mac_IOS_p, 
+    mySql_p, PHP_p, member_p):
+        
+    p = Proficiency.objects.get_or_create(c=c_p ,cpp=cpp_p, java=java_p, 
+                perl=perl_p, python=python_p, ruby=ruby_p, git=git_p, svn=svn_p, 
+                gradle=gradle_p, maven=maven_p, jenkins=jenkins_p, 
+                objective_c=objective_c_p, android=android_p, DSP=DSP_p, 
+                mac_IOS=mac_IOS_p, mySql=mySql_p, PHP=PHP_p, member=member_p)[0]
     
     return p
 
